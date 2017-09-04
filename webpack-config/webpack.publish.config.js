@@ -36,8 +36,8 @@ var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 =========================================================*/
 var webpackConfig = {};
 webpackConfig.entry = { //程序入口
-  app: DIR_CONGIG.entry,
-  vendors: ['react', 'react-dom']
+  app: ['babel-polyfill',DIR_CONGIG.entry],
+  vendors: ['react', 'react-dom','babel-polyfill']
 };
 
 /*=========================================================
@@ -65,10 +65,7 @@ webpackConfig.module = {
     { //引用css文件
       test: /\.css$/,
       use: ExtractTextPlugin.extract([{
-        loader: 'css-loader',
-        options: {
-          modules: true
-        }
+        loader: 'css-loader'
       }, {
         loader: 'postcss-loader',
         options: {
@@ -81,10 +78,7 @@ webpackConfig.module = {
     { //引用less文件
       test: /\.less$/,
       use: ExtractTextPlugin.extract([{
-        loader: 'css-loader',
-        options: {
-          modules: true
-        }
+        loader: 'css-loader'
       }, {
         loader: 'less-loader'
       }, {

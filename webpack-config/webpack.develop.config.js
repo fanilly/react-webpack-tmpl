@@ -16,12 +16,14 @@ const DIR_CONGIG = {
 module.exports = {
 
   //程序入口
-  entry: DIR_CONGIG.entry,
+  entry: ['babel-polyfill',DIR_CONGIG.entry],
 
   output: { //程序出口
     path: DIR_CONGIG.outputPath,
     filename: 'bundle.js'
   },
+
+  devtool: 'eval-source-map',
 
   devServer: { //webpack-dev-server工具配置
     port: 8090,
@@ -67,10 +69,7 @@ module.exports = {
             loader: 'style-loader'
           },
           {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
+            loader: 'css-loader'
           },
           {
             loader: 'less-loader'
