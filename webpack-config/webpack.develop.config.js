@@ -8,7 +8,7 @@ var path = require('path');
 //项目根目录
 const BASE_ROOT_DIR = path.resolve(__dirname, '../');
 const DIR_CONGIG = {
-  entry: path.resolve(BASE_ROOT_DIR, './src/scripts/index.js'),
+  entry: path.resolve(BASE_ROOT_DIR, './src/entry/index.js'),
   outputPath: path.resolve(BASE_ROOT_DIR, './build/'),
   devContentBase: path.resolve(BASE_ROOT_DIR, './src/')
 }
@@ -16,7 +16,7 @@ const DIR_CONGIG = {
 module.exports = {
 
   //程序入口
-  entry: ['babel-polyfill',DIR_CONGIG.entry],
+  entry: ['babel-polyfill','whatwg-fetch',DIR_CONGIG.entry],
 
   output: { //程序出口
     path: DIR_CONGIG.outputPath,
@@ -26,6 +26,14 @@ module.exports = {
   devtool: 'eval-source-map',
 
   devServer: { //webpack-dev-server工具配置
+    proxy: {
+      // 凡是 `/api` 开头的 http 请求，都会被代理到 localhost:8088 上，由 koa 提供 mock 数据。
+      // koa 代码在 ./mock 目录中，启动命令为 npm run mock
+      '/api': {
+        target: 'http://localhost:8088',
+        secure: false
+      }
+    },
     port: 8090,
     contentBase: DIR_CONGIG.devContentBase,
     inline: true,
@@ -37,10 +45,13 @@ module.exports = {
       { //es6 对jsx的解析
         test: /(\.js|\.jsx)$/,
         use: {
-          loader: 'babel-loader',
-          query: {
-            presets: ['es2015', 'react']
-          }
+          loader: 'babel-loader'
+        }
+      },
+      { //es6 对json的解析
+        test: /\.json$/,
+        use: {
+          loader: 'josn-loader'
         }
       },
       { //引用css文件

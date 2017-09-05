@@ -13,9 +13,9 @@ var webpack = require('webpack');
  */
 const BASE_ROOT_DIR = path.resolve(__dirname, '../');
 const DIR_CONGIG = {
-  entry: path.resolve(BASE_ROOT_DIR, './src/scripts/index.js'),
+  entry: path.resolve(BASE_ROOT_DIR, './src/entry/index.js'),
   outputPath: path.resolve(BASE_ROOT_DIR, './build/'),
-  tmplSrc: path.resolve(BASE_ROOT_DIR, './src/tmpl.html')
+  tmplSrc: path.resolve(BASE_ROOT_DIR, './src/index.tmpl.html')
 }
 
 /**
@@ -36,7 +36,7 @@ var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 =========================================================*/
 var webpackConfig = {};
 webpackConfig.entry = { //程序入口
-  app: ['babel-polyfill',DIR_CONGIG.entry],
+  app: ['babel-polyfill','whatwg-fetch',DIR_CONGIG.entry],
   vendors: ['react', 'react-dom','babel-polyfill']
 };
 
@@ -56,10 +56,13 @@ webpackConfig.module = {
     { //es6 对jsx的解析
       test: /(\.js|\.jsx)$/,
       use: {
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
+        loader: 'babel-loader'
+      }
+    },
+    { //es6 对json的解析
+      test: /\.json$/,
+      use: {
+        loader: 'josn-loader'
       }
     },
     { //引用css文件

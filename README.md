@@ -11,6 +11,8 @@
   npm install
   ## 运行开发环境
   npm run develop
+  ## 启动模拟数据服务
+  npm run mock
   ## 项目完成后进行打包
   npm run publish
 ```
