@@ -4,6 +4,7 @@
  * @Description: 开发环境(develop)
  */
 var path = require('path');
+var webpack = require('webpack');
 
 //项目根目录
 const BASE_ROOT_DIR = path.resolve(__dirname, '../');
@@ -37,7 +38,8 @@ module.exports = {
     port: 8090,
     contentBase: DIR_CONGIG.devContentBase,
     inline: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    hot:true
   },
 
   module: {
@@ -83,15 +85,15 @@ module.exports = {
             loader: 'css-loader'
           },
           {
-            loader: 'less-loader'
-          },
-          {
             loader: 'postcss-loader',
             options: {
               plugins:[
                 require('autoprefixer')
               ]
             }
+          },
+          {
+            loader: 'less-loader'
           }
         ]
       },
@@ -115,5 +117,9 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ]
 };

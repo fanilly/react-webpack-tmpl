@@ -83,14 +83,14 @@ webpackConfig.module = {
       use: ExtractTextPlugin.extract([{
         loader: 'css-loader'
       }, {
-        loader: 'less-loader'
-      }, {
         loader: 'postcss-loader',
         options: {
           plugins: [
             require('autoprefixer')
           ]
         }
+      }, {
+        loader: 'less-loader'
       }])
     },
     { //引用图片文件
